@@ -9,6 +9,7 @@ export interface TaskResponse {
   closedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
+  lastReminderSentAt?: Date;
 }
 
 const toTaskResponse = (task: ITask): TaskResponse => ({
@@ -20,6 +21,7 @@ const toTaskResponse = (task: ITask): TaskResponse => ({
   closedAt: task.closedAt,
   createdAt: task.createdAt,
   updatedAt: task.updatedAt,
+  lastReminderSentAt: task.lastReminderSentAt,
 });
 
 export const createTask = async (
@@ -79,14 +81,24 @@ export const updateTask = async (
     dueDate?: Date;
   },
 ): Promise<TaskResponse | null> => {
-  let closedAt = null;
+  const updateData: {
+    title?: string;
+    description?: string;
+    status?: "todo" | "in-progress" | "completed";
+    dueDate?: Date;
+    closedAt?: Date | null;
+  } = { ...input };
+
   if (input.status === "completed") {
-    closedAt = new Date();
+    updateData.closedAt = new Date();
+  } else if (input.status) {
+    updateData.closedAt = null;
   }
+
   const task = await Task.findOneAndUpdate(
     { _id: taskId, userId },
-    { $set: { ...input, closedAt: closedAt } },
-    { new: true },
+    { $set: updateData },
+    { returnDocument: "after" },
   );
 
   return task ? toTaskResponse(task) : null;

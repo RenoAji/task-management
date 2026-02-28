@@ -13,6 +13,8 @@ const envSchema = z.object({
   JWT_REFRESH_SECRET: z.string().min(1, "JWT_REFRESH_SECRET is required"),
   JWT_ACCESS_EXPIRES_IN: z.string().default("15m"),
   JWT_REFRESH_EXPIRES_IN: z.string().default("7d"),
+  RESEND_API_KEY: z.string().min(1, "RESEND_API_KEY is required"),
+  CRON_SCHEDULE: z.string().default("0 * * * *"), // Default: run every hour at minute 0
 });
 
 const parsed = envSchema.safeParse(process.env);
