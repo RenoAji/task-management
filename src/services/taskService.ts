@@ -79,9 +79,13 @@ export const updateTask = async (
     dueDate?: Date;
   },
 ): Promise<TaskResponse | null> => {
+  let closedAt = null;
+  if (input.status === "completed") {
+    closedAt = new Date();
+  }
   const task = await Task.findOneAndUpdate(
     { _id: taskId, userId },
-    { $set: input },
+    { $set: { ...input, closedAt: closedAt } },
     { new: true },
   );
 
