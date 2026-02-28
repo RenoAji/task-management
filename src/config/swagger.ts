@@ -31,8 +31,9 @@ const options: swaggerJsdoc.Options = {
       schemas: {
         Task: {
           type: "object",
+          required: ["id", "title", "status", "createdAt", "updatedAt"],
           properties: {
-            _id: {
+            id: {
               type: "string",
               example: "507f1f77bcf86cd799439011",
             },
@@ -49,13 +50,10 @@ const options: swaggerJsdoc.Options = {
               enum: ["todo", "in-progress", "completed"],
               example: "todo",
             },
-            userId: {
-              type: "string",
-              example: "507f1f77bcf86cd799439011",
-            },
             dueDate: {
               type: "string",
               format: "date-time",
+              nullable: true,
               example: "2026-03-15T10:00:00.000Z",
             },
             closedAt: {
@@ -63,6 +61,12 @@ const options: swaggerJsdoc.Options = {
               format: "date-time",
               nullable: true,
               example: null,
+            },
+            lastReminderSentAt: {
+              type: "string",
+              format: "date-time",
+              nullable: true,
+              example: "2026-02-28T18:35:00.679Z",
             },
             createdAt: {
               type: "string",
@@ -98,12 +102,18 @@ const options: swaggerJsdoc.Options = {
           type: "object",
           properties: {
             error: {
-              type: "string",
-              example: "ERROR_CODE",
-            },
-            message: {
-              type: "string",
-              example: "Error description",
+              type: "object",
+              properties: {
+                code: {
+                  type: "string",
+                  example: "VALIDATION_ERROR",
+                },
+                message: {
+                  type: "string",
+                  example:
+                    "Validation failed: title String must contain at least 1 character(s)",
+                },
+              },
             },
           },
         },

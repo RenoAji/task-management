@@ -38,11 +38,11 @@ const taskRouter = Router();
  *               title:
  *                 type: string
  *                 minLength: 1
- *                 maxLength: 200
+ *                 maxLength: 100
  *                 example: Complete project documentation
  *               description:
  *                 type: string
- *                 maxLength: 2000
+ *                 maxLength: 500
  *                 example: Write comprehensive API documentation with examples
  *               status:
  *                 type: string
@@ -125,7 +125,7 @@ taskRouter.post("/", authGuard, validate(createTaskSchema), createTaskHandler);
  *               properties:
  *                 message:
  *                   type: string
- *                   example: Tasks fetched successfully
+ *                   example: Tasks retrieved successfully
  *                 data:
  *                   type: array
  *                   items:
@@ -168,7 +168,7 @@ taskRouter.get("/", authGuard, getTasksHandler);
  *               properties:
  *                 message:
  *                   type: string
- *                   example: Task fetched successfully
+ *                   example: Task retrieved successfully
  *                 data:
  *                   $ref: '#/components/schemas/Task'
  *       400:
@@ -226,11 +226,11 @@ taskRouter.get(
  *               title:
  *                 type: string
  *                 minLength: 1
- *                 maxLength: 200
+ *                 maxLength: 100
  *                 example: Updated task title
  *               description:
  *                 type: string
- *                 maxLength: 2000
+ *                 maxLength: 500
  *                 example: Updated description
  *               status:
  *                 type: string
