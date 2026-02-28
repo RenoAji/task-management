@@ -12,7 +12,11 @@ export const updateTaskSchema = z.object({
   description: z.string().max(500).optional(),
   status: z.enum(["todo", "in-progress", "completed"]).optional(),
   dueDate: z.coerce.date().optional(),
-});
+})
+  .strict()
+  .refine((data) => Object.keys(data).length > 0, {
+    message: "At least one field is required",
+  });
 
 export const getTasksSchema = z.object({
   status: z.enum(["todo", "in-progress", "completed"]).optional(),

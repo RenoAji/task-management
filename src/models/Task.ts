@@ -9,6 +9,7 @@ export interface ITask extends Document {
   closedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
+  lastReminderSentAt?: Date;
 }
 
 const taskSchema = new Schema<ITask>(
@@ -38,6 +39,10 @@ const taskSchema = new Schema<ITask>(
       required: false,
     },
     closedAt: {
+      type: Date,
+      required: false,
+    },
+    lastReminderSentAt: {
       type: Date,
       required: false,
     },
